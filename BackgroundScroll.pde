@@ -16,7 +16,7 @@
  * update(String t)   Actualitza la propietat textContent
  * display()          Mostra el text
  */
- 
+
 
 class BackgroundScroll{
   PImage img;
@@ -50,8 +50,13 @@ class BackgroundScroll{
   }
 
   void display(){
+
+    this.update();
+    
+    imageMode(CORNER);
     image(img, currentPosX, 0);
     image(img, currentPosX+img.width, 0);
+
   }
 
 }

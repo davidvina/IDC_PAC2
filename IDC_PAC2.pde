@@ -23,6 +23,9 @@
 Snow[] nieve;
 
 BackgroundScroll fondo1;
+BackgroundScroll fondo2;
+
+Santa santa;
 
 void setup(){
   size(960,480); // mides document
@@ -37,18 +40,38 @@ void setup(){
 
 
   // fondos
-  fondo1 = new BackgroundScroll("fondo1.png", -3);
+  fondo1 = new BackgroundScroll("fondo1.png", -4);
+  fondo2 = new BackgroundScroll("fondo2.png", -0.4);
 
+  // santa
+  santa = new Santa();
 }
 
 void draw(){
-  background(0);
+  background(#6CA6BA);
 
+  fondo2.display();
   fondo1.display();
-  fondo1.update();
+
+  santa.display();
 
 }
 
-void mouseClicked() {
-  fondo1.playStop();
+// void mouseClicked() {
+//   fondo1.playStop();
+// }
+
+
+class Santa{
+    PImage img;
+
+    Santa(){
+      img = loadImage("santa.png");
+    }
+
+    void display(){
+      imageMode(CENTER);
+      image(img, mouseX, mouseY);
+    }
+
 }
