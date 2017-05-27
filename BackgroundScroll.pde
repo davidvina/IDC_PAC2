@@ -16,6 +16,7 @@
  * update(String t)   Actualitza la propietat textContent
  * display()          Mostra el text
  */
+ 
 
 class BackgroundScroll{
   PImage img;
