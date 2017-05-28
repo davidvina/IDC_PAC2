@@ -5,26 +5,27 @@ class Bomba{
   float velocitat_trineu;
   float angle = radians(90); // angle
   float a = 10; // acceleració o gravetat
+  float radi = 10;
 
 
-  float bomba_y; // posició actual rodona, eix x
-  float bomba_x; // posició actual rodona, eix y
+  float posY; // posició actual rodona, eix x
+  float posX; // posició actual rodona, eix y
 
-  float bomba_x0; // posició inicial rodona, eix x
-  float bomba_y0; // posició incial rodona, eix y
+  float posX0; // posició inicial rodona, eix x
+  float posY0; // posició incial rodona, eix y
 
   Bomba(float x, float y, float v){
-    bomba_x0 = x;
-    bomba_y0 = y;
-    bomba_x = bomba_x0;
-    bomba_y = bomba_y0;
+    posX0 = x;
+    posY0 = y;
+    posX = posX0;
+    posY = posY0;
     incrementoTiempo = frameRate/100;
     velocitat_trineu = v;
   }
 
   // comproba si l'element esta fora de pantalla
   boolean get_position(){
-    if (bomba_x < -20 || bomba_x > width+20 || bomba_y > height+10) {
+    if (posX < -20 || posX > width+20 || posY > height+10) {
       return true;
     } else {
       return false;
@@ -33,10 +34,10 @@ class Bomba{
 
     // update, calcul nova posició
   void update(){
-    //bomba_x = (bomba_x0 + velocitat_Inicial*cos(angle)*time);
+    //posX = (posX0 + velocitat_Inicial*cos(angle)*time);
     //velocitat_trineu = velocitat_trineu + velocitat_trineu;
-    bomba_x = bomba_x + velocitat_trineu;
-    bomba_y = bomba_y0 - velocitat_Inicial*sin(angle)*time +a/2*sq(time) ;
+    posX = posX + velocitat_trineu;
+    posY = posY0 - velocitat_Inicial*sin(angle)*time +a/2*sq(time) ;
     time = time + incrementoTiempo;
   }
 
@@ -44,10 +45,11 @@ class Bomba{
   void display(){
     this.update();
     fill (#ffffff);
-    ellipse (bomba_x, bomba_y, 10, 10);
+    ellipse (posX, posY, radi, radi);
     fill(#000000);
-    //text(bomba_x, 20, 20);
-    //text(bomba_y, 20, 60);
+    //text(posX, 20, 20);
+    //text(posY, 20, 60);
+    text(str(posX)+" "+str(posY), posX+20, posY);
   }
 
 

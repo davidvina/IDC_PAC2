@@ -20,7 +20,7 @@
  // AudioPlayer audio; // reproductor de so
 
 
-Snow[] nieve;
+//Snow[] nieve;
 
 BackgroundScroll fondo1;
 BackgroundScroll fondo2;
@@ -30,7 +30,9 @@ Santa santa;
 
 ArrayList<Bomba> bombas = new ArrayList<Bomba>();
 
-ArrayList<Casa> casas;
+//ArrayList<Casa> casas;
+Casa[] casas;
+
 
 float velocitatTrineu;
 
@@ -40,8 +42,7 @@ PImage casaImg;
 
 void setup(){
   size(960,480, P2D); // mides document
-  frameRate(30
-    );
+  frameRate(10);
 
   // create our Minim object for loading audio
   // inicialitzem l'objecte Minim per poder treballar amb audios
@@ -60,25 +61,18 @@ void setup(){
   // santa
   santa = new Santa();
 
-
-
   // casas
   casaImg = loadImage("home.png");
+  casas = new Casa[10];
 
-  casas = new ArrayList<Casa>();
-
-  // loop que genera las casas
-  // añadimos 40 casas
   float initialPosx = 600;
-  for(int i = 0; i < 20; ++i){
 
-
-    casas.add(new Casa(initialPosx+(random(-50,50)), random(250,300), velocitatTrineu));
+  for(int i = 0; i < casas.length; i++){
+    casas[i] = new Casa(initialPosx+(random(-50,50)), random(250,300), velocitatTrineu);
     initialPosx += 150;
-
   }
 
-}
+} // void setup
 
 void draw(){
   background(#6CA6BA);
@@ -88,14 +82,15 @@ void draw(){
 
 
   // recorreguem casas
-  if( casas.size() > 0 ){
-    for(int i = 0; i < casas.size(); ++i){
-
-      Casa casa = casas.get(i);
-      casa.display();
-
-      // eliminar casa si acaba
-
+  // para actualizar posicion
+  // para ver si hay colision
+  if( casas.length > 0 ){
+    for(int i = 0; i < casas.length; ++i){
+      // comprovamos si la casa ha salido de la pantalla
+      if (casas[i].posX < -150){
+        casas[i].posX += 1100 + random(0, 250);
+      }
+      casas[i].display();
     }
   }
 
@@ -107,6 +102,17 @@ void draw(){
         // actualitzem posicio bombas
         Bomba currentBomb = bombas.get(i);
         currentBomb.display();
+
+        // comprovamos si la bomba ha colisionado
+        for(int e = 0; e < casas.length; e++){
+          if(casas[e].checkColision(currentBomb.posX, currentBomb.posY, currentBomb.radi)){
+            text("colision", 20, 40);
+            bombas.remove(i);
+          } else {
+            text("No colision", 20, 40);
+          }
+        }
+
 
         // comprovem si la bomba a sortit de la pantalla
         // si es així eliminem l'element del ArrayList
@@ -120,14 +126,12 @@ void draw(){
 
 
 
-  // comprovamos colisiones
-
-
 
   santa.display();
 
   fill(#000000);
   text(frameRate, 20, 30);
+  text("Numero bombas: "+str(bombas.size()), 20, 50);
 
 }
 
@@ -165,6 +169,8 @@ class Casa{
   float velocitat_trineu;
   int sizeCasa;
 
+  // posicion de la chimenea
+
 
   Casa(float x, float y, float v){
     //img = loadImage("home.png");
@@ -174,18 +180,50 @@ class Casa{
     sizeCasa = int(random(100,150));
   }
 
+  void chimenea(){
+      fill(255,0,0);
+      rect(posX+10, posY, 30, 30);
+  }
+
+  // devuelve valores de la chimenea para comprovar colision
+  float chimeneaX1(){
+    return posX+10;
+  }
+
+  float chimeneaX2(){
+    return posX+40;
+  }
+
+  float chimeneaY1(){
+    return posY;
+  }
+
+  // chequea si hay colision
+  boolean checkColision(float x, float y, float r){
+    if( x > this.chimeneaX1() & x < this.chimeneaX2() &
+        y == this.chimeneaY1()){
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
+
+
+
   void updatePos(){
     posX = posX + velocitat_trineu;
   }
 
   void display(){
-
     this.updatePos();
     imageMode(CORNER);
     casaImg.resize(100, 0);
     image(casaImg, posX, posY);
-    fill(255,0,0);
-    rect(posX+10, posY, 30, 30);
+    this.chimenea();
+    fill(#000000);
+    text (str(this.chimeneaX1())+" "+str(this.chimeneaX2()), posX, posY);
   }
 
 
