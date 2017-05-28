@@ -42,7 +42,8 @@ PImage casaImg;
 
 void setup(){
   size(960,480, P2D); // mides document
-  frameRate(10);
+  noSmooth();
+  frameRate(30);
 
   // create our Minim object for loading audio
   // inicialitzem l'objecte Minim per poder treballar amb audios
@@ -170,7 +171,12 @@ class Casa{
   int sizeCasa;
 
   // posicion de la chimenea
+  float chimX = 10;
+  float chimY = 10;
+  // medidas chimenea
 
+  float chimW = 30;
+  float chimH = 10;
 
   Casa(float x, float y, float v){
     //img = loadImage("home.png");
@@ -182,31 +188,22 @@ class Casa{
 
   void chimenea(){
       fill(255,0,0);
-      rect(posX+10, posY, 30, 30);
+      rect(posX+chimX, posY+chimY, chimW, chimH);
   }
 
-  // devuelve valores de la chimenea para comprovar colision
-  float chimeneaX1(){
-    return posX+10;
-  }
 
-  float chimeneaX2(){
-    return posX+40;
-  }
-
-  float chimeneaY1(){
-    return posY;
-  }
-
+  // https://github.com/jeffThompson/CollisionDetectionFunctionsForProcessing
   // chequea si hay colision
   boolean checkColision(float x, float y, float r){
-    if( x > this.chimeneaX1() & x < this.chimeneaX2() &
-        y == this.chimeneaY1()){
-      return true;
-    } else {
-      return false;
-    }
 
+    if( ((x >= posX+chimX) && (x <= posX+chimX+chimW))
+        &&
+        ((y => posY+chimY) && (y <= posY+chimY+chimH))
+      ) {
+        return true;
+      } else {
+        return false;
+      }
   }
 
 
@@ -223,7 +220,7 @@ class Casa{
     image(casaImg, posX, posY);
     this.chimenea();
     fill(#000000);
-    text (str(this.chimeneaX1())+" "+str(this.chimeneaX2()), posX, posY);
+    //text (str(this.chimeneaX1())+" "+str(this.chimeneaX2()), posX, posY);
   }
 
 

@@ -1,11 +1,11 @@
 class Bomba{
   float time = 0; // temps
   float incrementoTiempo;
-  float velocitat_Inicial = 60; // velocitat incial
+  float velocitat_Inicial = 50; // velocitat incial
   float velocitat_trineu;
   float angle = radians(90); // angle
   float a = 10; // acceleració o gravetat
-  float radi = 10;
+  float radi = 20;
 
 
   float posY; // posició actual rodona, eix x
@@ -49,7 +49,6 @@ class Bomba{
     fill(#000000);
     //text(posX, 20, 20);
     //text(posY, 20, 60);
-    text(str(posX)+" "+str(posY), posX+20, posY);
   }
 
 
