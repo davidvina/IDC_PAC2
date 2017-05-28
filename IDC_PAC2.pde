@@ -27,6 +27,11 @@ BackgroundScroll fondo2;
 
 Santa santa;
 
+
+ArrayList<Bomba> bombas = new ArrayList<Bomba>();
+
+float velocitatTrineu;
+
 void setup(){
   size(960,480); // mides document
 
@@ -38,13 +43,16 @@ void setup(){
   // //
   // audio.play();
 
+  velocitatTrineu = -4;
 
   // fondos
-  fondo1 = new BackgroundScroll("fondo1.png", -4);
+  fondo1 = new BackgroundScroll("fondo1.png", velocitatTrineu);
   fondo2 = new BackgroundScroll("fondo2.png", -0.4);
 
   // santa
   santa = new Santa();
+
+
 }
 
 void draw(){
@@ -55,11 +63,23 @@ void draw(){
 
   santa.display();
 
+  // si l'ArrayList te elements recorreguem aquest
+  if(bombas.size()>0){
+    for(int i = 0; i < bombas.size(); ++i){
+        Bomba currentBomb = bombas.get(i);
+        currentBomb.display();
+    }
+  }
+
 }
 
 // void mouseClicked() {
 //   fondo1.playStop();
 // }
+void mouseClicked(){
+    // crear una bomba
+    bombas.add(new Bomba(mouseX, mouseY, velocitatTrineu));
+}
 
 
 class Santa{
