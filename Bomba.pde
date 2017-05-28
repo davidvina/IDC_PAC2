@@ -22,6 +22,15 @@ class Bomba{
     velocitat_trineu = v;
   }
 
+  // comproba si l'element esta fora de pantalla
+  boolean get_position(){
+    if (bomba_x < -20 || bomba_x > width+20 || bomba_y > height+10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
     // update, calcul nova posició
   void update(){
     //bomba_x = (bomba_x0 + velocitat_Inicial*cos(angle)*time);
