@@ -5,30 +5,43 @@
  * classe que permet colocar un text
  * he decidit crear aquesta classe per tal de alleugerir el codi de l'arxiu princal
  *
- * @PROPIETATS
- * textContent {string} text a mostrar
- * posX {entero}        posicion X del text
- * posY {entero}        posicion Y
- * tColor {color}       color del text
- * tipografia {PFont}   Característiques tipografiques
- *
- * @METODES
- * update(String t)   Actualitza la propietat textContent
- * display()          Mostra el text
  */
 class Text{
   // propietats
   String textContent;
-  int posX;
-  int posY;
+  int posX = 10;
+  int posY = 10;
   color tColor = color(0, 0.8);
-  PFont tipografia = createFont("Unibody_8.ttf", 12);
+  PFont tipografia;
+  String textAlign = "LEFT";
+
+  boolean shadow = false;
+  int sX = 3;
+  int sY = 3;
+  color sColor = color(#000000, 100);
+
 
   // constructor
-  Text(String t,int px, int py){
-      posX = px;
-      posY = py;
+  Text(String t, String pathFont, int sizeFont){
       textContent = t;
+      tipografia= createFont(pathFont, sizeFont);
+  }
+
+  void setPosition(int x, int y){
+      posX = x;
+      posY = y;
+  }
+
+  void setColor(color c){
+    tColor = c;
+  }
+
+  void setShadow(boolean s){
+    shadow = s;
+  }
+
+  void setJustify(String ta){
+    textAlign = ta;
   }
 
   // Setter
@@ -38,9 +51,34 @@ class Text{
 
   // Getter
   void display(){
+
     textFont(tipografia);
+    textLeading(30);
+
+
+    switch (textAlign){
+      case "LEFT":
+        textAlign(LEFT);
+        break;
+      case "RIGHT":
+        textAlign(RIGHT);
+        break;
+      case "CENTER":
+        textAlign(CENTER);
+        break;
+    }
+
+
+    if(shadow){
+      fill(sColor);
+      text(textContent, posX+sX, posY+sY);
+      //filter(BLUR);
+    }
+
+
     fill(tColor);
-    textAlign(LEFT);
     text(textContent, posX, posY);
+
+
   }
 }
